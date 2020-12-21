@@ -2,5 +2,9 @@
     "x_cord": 935,
     "y_cord": 0,
     "off_x": 45,
-    "off_y": 25
+    "off_y": 25,
+    "beads_button": "home",
+    "aegis_button": "end",
+    "fg_button": "page up",
+    "gf_button": "page down"
 }

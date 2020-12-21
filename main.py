@@ -77,22 +77,22 @@ def enter_press():
 
 def main():
     while(True):
-        if keyboard.read_key() == "home":
+        if keyboard.read_key() == config['beads_button']:
             keyboard.send('enter')
             keyboard.write(grab_image(0))
             keyboard.call_later(enter_press,(), 0.2)
 
-        if keyboard.read_key() == "end":
+        if keyboard.read_key() == config['aegis_button']:
             keyboard.send('enter')
             keyboard.write(grab_image(1))
             keyboard.call_later(enter_press,(), 0.2)
 
-        if keyboard.read_key() == "page up":
+        if keyboard.read_key() == config['fg_button']:
             keyboard.send('enter')
             keyboard.write(grab_image(2))
             keyboard.call_later(enter_press,(), 0.2)
         
-        if keyboard.read_key() == "page down":
+        if keyboard.read_key() == config['gf_button']:
             keyboard.send('enter')
             keyboard.write(grab_image(3))
             keyboard.call_later(enter_press,(), 0.2)
@@ -100,3 +100,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+    
