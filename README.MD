@@ -1,7 +1,7 @@
 # Smite Insta Timer
 A python app that will write timers to team chat in Smite when certain buttons are pressed.
 
-The OCR that the program uses is Tesseract OCR you can download it [here] (https://github.com/tesseract-ocr/tessdoc/blob/master/Downloads.md).
+The OCR that the program uses is Tesseract OCR. You can download it [here](https://github.com/tesseract-ocr/tessdoc/blob/master/Downloads.md)
 
 The configuration file has coordinates which are for locating the timer, which you can change as needed.
 

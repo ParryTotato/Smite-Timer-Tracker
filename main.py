@@ -1,4 +1,4 @@
-import keyboard  # using module keyboard
+import keyboard
 import numpy as np
 from PIL import ImageGrab, Image
 import pytesseract
@@ -28,7 +28,6 @@ def grab_image(mode):
     # Grab a picture and convert to B/W 8-bit pixels
     img = ImageGrab.grab(bbox=(x, y, x + offx, y + offy)).convert('L')
     # img = img.resize((new_size_x, new_size_y), Image.ANTIALIAS)
-    img.save("img.jpg")
     #helping with image processing
     img = np.array(img)
     
@@ -72,19 +71,31 @@ def mode_switcher(mode):
     }
     return switcher.get(mode, [0, "Invalid"])
 
+def enter_press():
+    keyboard.send('enter')
+
+
 def main():
     while(True):
         if keyboard.read_key() == "home":
+            keyboard.send('enter')
             keyboard.write(grab_image(0))
+            keyboard.call_later(enter_press,(), 0.2)
 
         if keyboard.read_key() == "end":
+            keyboard.send('enter')
             keyboard.write(grab_image(1))
+            keyboard.call_later(enter_press,(), 0.2)
 
         if keyboard.read_key() == "page up":
+            keyboard.send('enter')
             keyboard.write(grab_image(2))
+            keyboard.call_later(enter_press,(), 0.2)
         
         if keyboard.read_key() == "page down":
+            keyboard.send('enter')
             keyboard.write(grab_image(3))
+            keyboard.call_later(enter_press,(), 0.2)
         # keyboard.add_hotkey('p', lambda: keyboard.write(grab_image(0)))
 
 if __name__ == '__main__':
