@@ -1,10 +1,12 @@
 {
-    "x_cord": 935,
+    "x_cord": 936,
     "y_cord": 0,
-    "off_x": 45,
-    "off_y": 25,
-    "beads_button": "home",
-    "aegis_button": "end",
+    "off_x": 42,
+    "off_y": 22,
+    "beads_button": "caps lock",
+    "aegis_button": "`",
     "fg_button": "page up",
-    "gf_button": "page down"
+    "gf_button": "page down",
+    "beads_upgrade_button": "home",
+    "aegis_upgrade_button": "end"
 }

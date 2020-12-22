@@ -14,8 +14,6 @@ def format_time(min, sec):
         min = min + over
     return [min, sec]
 
-def digit_check(x):
-    return x.isdigit()
 
 def grab_image(mode):
     x = config['x_cord']
@@ -27,11 +25,13 @@ def grab_image(mode):
     new_size_y = 100
     # Grab a picture and convert to B/W 8-bit pixels
     img = ImageGrab.grab(bbox=(x, y, x + offx, y + offy)).convert('L')
-    # img = img.resize((new_size_x, new_size_y), Image.ANTIALIAS)
+    img = img.resize((new_size_x, new_size_y), Image.ANTIALIAS)
     #helping with image processing
     img = np.array(img)
     
     result = process(img, mode)
+    if not type(result) == str:
+        result = ''
     return result
 
 # class Imaging:
@@ -44,7 +44,7 @@ def process(greyImg, mode):
     txt = pytesseract.image_to_string(greyImg)
     # print(txt)
     if txt != '':
-        time_raw = ''.join(filter(digit_check, txt))
+        time_raw = ''.join(filter(lambda x: x.isdigit(), txt))
         time_raw = time_raw.replace('-.',':')
         if len(time_raw) < 3:
             time_raw = -1
@@ -52,8 +52,7 @@ def process(greyImg, mode):
             min = int(time_raw[:-2])
             sec = int(time_raw[-2:])
             [time_add, event] = mode_switcher(mode)
-            sec = sec + time_add
-            [min, sec] = format_time(min, sec)
+            [min, sec] = format_time(min, sec + time_add)
             sec_str = str(sec)
             if len(sec_str) == 1:
                 sec_str = "0" + sec_str
@@ -62,42 +61,48 @@ def process(greyImg, mode):
             print(sb)
             return sb
 
+
 def mode_switcher(mode):
     switcher = {
         0: [160, "Beads"],
         1: [180, "Aegis"],
         2: [300, "FG"],
-        3: [300, "GF"] 
+        3: [300, "GF"],
+        4: [130, "U_Beads"],
+        5: [150, "U_Aegis"] 
     }
     return switcher.get(mode, [0, "Invalid"])
 
-def enter_press():
+
+def send_message(mode):
+    time = grab_image(mode)
+    # keyboard.hook_key("w", lambda: )
     keyboard.send('enter')
+    # keyboard.call_later(lambda: keyboard.write(time), (), 0.1)
+    keyboard.write(time)
+    keyboard.call_later(lambda: keyboard.send('enter'),(), 0.1)
 
 
 def main():
     while(True):
         if keyboard.read_key() == config['beads_button']:
-            keyboard.send('enter')
-            keyboard.write(grab_image(0))
-            keyboard.call_later(enter_press,(), 0.2)
+            send_message(0)
 
         if keyboard.read_key() == config['aegis_button']:
-            keyboard.send('enter')
-            keyboard.write(grab_image(1))
-            keyboard.call_later(enter_press,(), 0.2)
+            send_message(1)
 
         if keyboard.read_key() == config['fg_button']:
-            keyboard.send('enter')
-            keyboard.write(grab_image(2))
-            keyboard.call_later(enter_press,(), 0.2)
-        
+            send_message(2)
+
         if keyboard.read_key() == config['gf_button']:
-            keyboard.send('enter')
-            keyboard.write(grab_image(3))
-            keyboard.call_later(enter_press,(), 0.2)
+            send_message(3)
+        
+        if keyboard.read_key() == config['beads_upgrade_button']:
+            send_message(4)
+
+        if keyboard.read_key() == config['aegis_upgrade_button']:
+            send_message(5)
         # keyboard.add_hotkey('p', lambda: keyboard.write(grab_image(0)))
 
 if __name__ == '__main__':
     main()
-    
