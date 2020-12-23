@@ -3,10 +3,12 @@
     "y_cord": 0,
     "off_x": 42,
     "off_y": 22,
-    "beads_button": "caps lock",
-    "aegis_button": "`",
+    "use_mode": "no_enter",
+    "beads_button": "`",
+    "aegis_button": "caps lock",
     "fg_button": "page up",
     "gf_button": "page down",
     "beads_upgrade_button": "home",
-    "aegis_upgrade_button": "end"
+    "aegis_upgrade_button": "end",
+    
 }

@@ -24,15 +24,17 @@ def grab_image(mode):
     new_size_x = 300
     new_size_y = 100
     # Grab a picture and convert to B/W 8-bit pixels
-    img = ImageGrab.grab(bbox=(x, y, x + offx, y + offy)).convert('L')
-    img = img.resize((new_size_x, new_size_y), Image.ANTIALIAS)
-    #helping with image processing
-    img = np.array(img)
-    
-    result = process(img, mode)
-    if not type(result) == str:
-        result = ''
-    return result
+    # album = []
+    for clip in range(0,5):
+        img = ImageGrab.grab(bbox=(x, y, x + offx, y + offy)).convert('L')
+        img = img.resize((new_size_x, new_size_y), Image.ANTIALIAS)
+        #helping with image processing
+        img = np.array(img)
+        result = process(img, mode)
+        if type(result) == str:
+            return result
+
+    return ''
 
 # class Imaging:
     # def __init__(self):
@@ -47,6 +49,7 @@ def process(greyImg, mode):
         time_raw = ''.join(filter(lambda x: x.isdigit(), txt))
         time_raw = time_raw.replace('-.',':')
         if len(time_raw) < 3:
+            print("fail")
             time_raw = -1
         else:
             min = int(time_raw[:-2])
@@ -77,10 +80,14 @@ def mode_switcher(mode):
 def send_message(mode):
     time = grab_image(mode)
     # keyboard.hook_key("w", lambda: )
-    keyboard.send('enter')
+    if config["use_mode"] == "no_enter":
+        keyboard.send('enter')
+        keyboard.write(time)
+        keyboard.call_later(lambda: keyboard.send('enter'),(), 0.1)
     # keyboard.call_later(lambda: keyboard.write(time), (), 0.1)
-    keyboard.write(time)
-    keyboard.call_later(lambda: keyboard.send('enter'),(), 0.1)
+    elif config["use_mode"] == "yes_enter":
+        keyboard.write(time)
+        
 
 
 def main():
