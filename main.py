@@ -76,8 +76,8 @@ def mode_switcher(mode):
         1: [180, "Aegis"],
         2: [300, "FG"],
         3: [300, "GF"],
-        4: [130, "U_Beads"],
-        5: [150, "U_Aegis"] 
+        4: [130, "U Beads"],
+        5: [150, "U Aegis"] 
     }
     return switcher.get(mode, [0, "Invalid"])
 
