@@ -4,6 +4,7 @@ from PIL import ImageGrab, Image
 import pytesseract
 import math
 import json
+# import cv2
 
 config = json.loads(open('config.json').read())
 
@@ -21,18 +22,22 @@ def grab_image(mode):
     offx = config['off_x']
     offy = config['off_y']
     
-    new_size_x = 300
-    new_size_y = 100
+    # new_size_x = 300
+    # new_size_y = 100
+    result = ''
     # Grab a picture and convert to B/W 8-bit pixels
     # album = []
-    for clip in range(0,5):
-        img = ImageGrab.grab(bbox=(x, y, x + offx, y + offy)).convert('L')
-        img = img.resize((new_size_x, new_size_y), Image.ANTIALIAS)
-        #helping with image processing
-        img = np.array(img)
-        result = process(img, mode)
-        if type(result) == str:
-            return result
+    print("something pressed")
+    # for clip in range(0,5):
+    img = ImageGrab.grab(bbox=(x, y, x + offx, y + offy)).convert('L')
+    # img = img.resize((new_size_x, new_size_y), Image.ANTIALIAS)
+    # img = cv2.resize(img, None, fx=1.2, fy=1.2, interpolation=cv2.INTER_CUBIC)
+    # img.save("img.jpg")
+    #helping with image processing
+    img = np.array(img)
+    result = process(img, mode)
+    if type(result) == str:
+        return result
 
     return ''
 
@@ -82,7 +87,11 @@ def send_message(mode):
     # keyboard.hook_key("w", lambda: )
     if config["use_mode"] == "no_enter":
         keyboard.send('enter')
-        keyboard.write(time)
+        keyboard.write(time, 0.02)
+        # keyboard.send(time)
+        # keyboard.call_later(lambda: keyboard.send('space'),(), 0.1)
+        # for letter in time:
+        #     keyboard.send(letter)
         keyboard.call_later(lambda: keyboard.send('enter'),(), 0.1)
     # keyboard.call_later(lambda: keyboard.write(time), (), 0.1)
     elif config["use_mode"] == "yes_enter":
@@ -92,7 +101,12 @@ def send_message(mode):
 
 def main():
     while(True):
+        # if keyboard.is_pressed(config['beads_button']):
+        # keyboard.add_abbreviation(config['beads_button'], grab_image(0))
+        # keyboard.on_press_key(config['beads_button'], send_message(0))
+
         if keyboard.read_key() == config['beads_button']:
+            # print('1')
             send_message(0)
 
         if keyboard.read_key() == config['aegis_button']:
