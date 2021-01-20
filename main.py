@@ -71,6 +71,7 @@ def process(greyImg, mode):
 
 
 def mode_switcher(mode):
+    # Alex is the GOAT
     switcher = {
         0: [config['beads']['timer'], config['beads']['event']],
         1: [config['beads_upgrade']['timer'], config['beads_upgrade']['event']],
