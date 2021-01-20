@@ -4,10 +4,34 @@
     "off_x": 44,
     "off_y": 23,
     "use_mode": "no_enter",
-    "beads_button": "`",
-    "aegis_button": "caps lock",
-    "fg_button": "page up",
-    "gf_button": "page down",
-    "beads_upgrade_button": "home",
-    "aegis_upgrade_button": "end"
+    "beads": {
+        "key": "-",
+        "timer": 160,
+        "event": "Beads"
+    },
+    "beads_upgrade": {
+        "key": "[",
+        "timer": 130,
+        "event": "U Beads"
+    },
+    "aegis": {
+        "key": "=",
+        "timer": 180,
+        "event": "Aegis"
+    },
+    "aegis_upgrade": {
+        "key": "]",
+        "timer": 150,
+        "event": "U Aegis"
+    },
+    "gf": {
+        "key": ";",
+        "timer": 300,
+        "event": "'Gold' Fury"
+    },
+    "fg": {
+        "key": "'",
+        "timer": 300,
+        "event": "Fire Giant"
+    }
 }

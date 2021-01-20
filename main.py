@@ -72,12 +72,12 @@ def process(greyImg, mode):
 
 def mode_switcher(mode):
     switcher = {
-        0: [160, "Beads"],
-        1: [180, "Aegis"],
-        2: [300, "FG"],
-        3: [300, "GF"],
-        4: [130, "U Beads"],
-        5: [150, "U Aegis"] 
+        0: [config['beads']['timer'], config['beads']['event']],
+        1: [config['beads_upgrade']['timer'], config['beads_upgrade']['event']],
+        2: [config['aegis']['timer'], config['aegis']['event']],
+        3: [config['aegis_upgrade']['timer'], config['aegis_upgrade']['event']],
+        4: [config['gf']['timer'], config['gf']['event']],
+        5: [config['fg']['timer'], config['fg']['event']]
     }
     return switcher.get(mode, [0, "Invalid"])
 
@@ -105,23 +105,26 @@ def main():
         # keyboard.add_abbreviation(config['beads_button'], grab_image(0))
         # keyboard.on_press_key(config['beads_button'], send_message(0))
 
-        if keyboard.read_key() == config['beads_button']:
+        # if keyboard.read_hotkey() == config['beads_button']:
             # print('1')
+            # send_message(0)
+
+        if keyboard.read_key() == config['beads']['key']:
             send_message(0)
 
-        if keyboard.read_key() == config['aegis_button']:
+        if keyboard.read_key() == config['beads_upgrade']['key']:
             send_message(1)
 
-        if keyboard.read_key() == config['fg_button']:
+        if keyboard.read_key() == config['aegis']['key']:
             send_message(2)
 
-        if keyboard.read_key() == config['gf_button']:
+        if keyboard.read_key() == config['aegis_upgrade']['key']:
             send_message(3)
         
-        if keyboard.read_key() == config['beads_upgrade_button']:
+        if keyboard.read_key() == config['gf']['key']:
             send_message(4)
 
-        if keyboard.read_key() == config['aegis_upgrade_button']:
+        if keyboard.read_key() == config['fg']['key']:
             send_message(5)
         # keyboard.add_hotkey('p', lambda: keyboard.write(grab_image(0)))
 
