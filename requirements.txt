@@ -2,4 +2,5 @@ numpy
 keyboard
 pytesseract
 Pillow
+pynput
 # opencv-python
