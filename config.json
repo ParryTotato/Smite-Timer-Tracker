@@ -4,8 +4,9 @@
     "off_x": 44,
     "off_y": 23,
     "use_mode": "no_enter",
+    "exit_key": "esc",
     "beads": {
-        "key": "-",
+        "key": "`",
         "timer": 160,
         "event": "Beads"
     },

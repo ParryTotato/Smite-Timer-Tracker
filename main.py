@@ -4,6 +4,7 @@ from PIL import ImageGrab, Image
 import pytesseract
 import math
 import json
+from pynput.keyboard import Key, Listener
 # import cv2
 
 config = json.loads(open('config.json').read())
@@ -88,7 +89,7 @@ def send_message(mode):
     # keyboard.hook_key("w", lambda: )
     if config["use_mode"] == "no_enter":
         keyboard.send('enter')
-        keyboard.write(time, 0.02)
+        keyboard.write(time)
         # keyboard.send(time)
         # keyboard.call_later(lambda: keyboard.send('space'),(), 0.1)
         # for letter in time:
@@ -98,7 +99,38 @@ def send_message(mode):
     elif config["use_mode"] == "yes_enter":
         keyboard.write(time)
         
+def key_reader(key):
+    if key == Key.esc or key == config['exit_key']:
+        # Stop listener
+        return False
 
+    if format(key) == "'" + config['beads']['key'] + "'":
+        print('dicks')
+        send_message(0)
+
+    if format(key) == "'" + config['beads_upgrade']['key'] + "'":
+        send_message(1)
+
+    if format(key) == "'" + config['aegis']['key']  + "'":
+        send_message(2)
+
+    if format(key) == "'" + config['aegis_upgrade']['key']  + "'":
+        send_message(3)
+    
+    if format(key) == "'" + config['gf']['key']  + "'":
+        send_message(4)
+
+    if format(key) == "'" + config['fg']['key']  + "'":
+        send_message(5)
+
+def on_press(key):
+    print('{0} pressed'.format(
+        key))
+
+with Listener(
+        on_press=on_press,
+        on_release=key_reader) as listener:
+    listener.join()
 
 def main():
     while(True):
@@ -129,5 +161,5 @@ def main():
             send_message(5)
         # keyboard.add_hotkey('p', lambda: keyboard.write(grab_image(0)))
 
-if __name__ == '__main__':
-    main()
+# if __name__ == '__main__':
+#     main()
