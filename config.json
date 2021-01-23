@@ -4,31 +4,31 @@
     "off_x": 44,
     "off_y": 23,
     "use_mode": "no_enter",
-    "exit_key": "esc",
+    "exit_key": "end",
     "beads": {
         "key": "`",
         "timer": 160,
         "event": "Beads"
     },
     "beads_upgrade": {
-        "key": "[",
+        "key": "caps_lock",
         "timer": 130,
         "event": "U Beads"
     },
     "aegis": {
-        "key": "=",
+        "key": "page_up",
         "timer": 180,
         "event": "Aegis"
     },
     "aegis_upgrade": {
-        "key": "]",
+        "key": "page_down",
         "timer": 150,
         "event": "U Aegis"
     },
     "gf": {
         "key": ";",
         "timer": 300,
-        "event": "'Gold' Fury"
+        "event": "Gold Fury"
     },
     "fg": {
         "key": "'",

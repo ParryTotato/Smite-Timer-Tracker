@@ -100,66 +100,41 @@ def send_message(mode):
         keyboard.write(time)
         
 def key_reader(key):
-    if key == Key.esc or key == config['exit_key']:
+    frmt = format(key)
+    if frmt != "\"\'\"":
+        frmt = frmt.replace('\'', '')
+        if 'Key.' in frmt:
+            frmt = frmt.replace('Key.', '')
+    else:
+        frmt = frmt.replace('\"', '')
+
+    if frmt == config['exit_key']:
         # Stop listener
         return False
 
-    if format(key) == "'" + config['beads']['key'] + "'":
-        print('dicks')
+
+    if frmt == config['beads']['key']:
         send_message(0)
 
-    if format(key) == "'" + config['beads_upgrade']['key'] + "'":
+    if frmt == config['beads_upgrade']['key']:
         send_message(1)
 
-    if format(key) == "'" + config['aegis']['key']  + "'":
+    if frmt == config['aegis']['key']:
         send_message(2)
 
-    if format(key) == "'" + config['aegis_upgrade']['key']  + "'":
+    if frmt == config['aegis_upgrade']['key']:
         send_message(3)
     
-    if format(key) == "'" + config['gf']['key']  + "'":
+    if frmt == config['gf']['key']:
         send_message(4)
 
-    if format(key) == "'" + config['fg']['key']  + "'":
+    if frmt == config['fg']['key']:
         send_message(5)
 
 def on_press(key):
-    print('{0} pressed'.format(
-        key))
+    print('{0} pressed'.format(key))
 
 with Listener(
-        on_press=on_press,
-        on_release=key_reader) as listener:
+        on_press = None,
+        on_release = key_reader) as listener:
     listener.join()
-
-def main():
-    while(True):
-        # if keyboard.is_pressed(config['beads_button']):
-        # keyboard.add_abbreviation(config['beads_button'], grab_image(0))
-        # keyboard.on_press_key(config['beads_button'], send_message(0))
-
-        # if keyboard.read_hotkey() == config['beads_button']:
-            # print('1')
-            # send_message(0)
-
-        if keyboard.read_key() == config['beads']['key']:
-            send_message(0)
-
-        if keyboard.read_key() == config['beads_upgrade']['key']:
-            send_message(1)
-
-        if keyboard.read_key() == config['aegis']['key']:
-            send_message(2)
-
-        if keyboard.read_key() == config['aegis_upgrade']['key']:
-            send_message(3)
-        
-        if keyboard.read_key() == config['gf']['key']:
-            send_message(4)
-
-        if keyboard.read_key() == config['fg']['key']:
-            send_message(5)
-        # keyboard.add_hotkey('p', lambda: keyboard.write(grab_image(0)))
-
-# if __name__ == '__main__':
-#     main()
