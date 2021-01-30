@@ -4,35 +4,58 @@
     "off_x": 44,
     "off_y": 23,
     "use_mode": "no_enter",
+    "controls_key": "home",
     "exit_key": "end",
-    "beads": {
-        "key": "`",
-        "timer": 160,
-        "event": "Beads"
-    },
-    "beads_upgrade": {
-        "key": "caps_lock",
-        "timer": 130,
-        "event": "U Beads"
-    },
-    "aegis": {
-        "key": "page_up",
-        "timer": 180,
-        "event": "Aegis"
-    },
-    "aegis_upgrade": {
-        "key": "page_down",
-        "timer": 150,
-        "event": "U Aegis"
-    },
-    "gf": {
-        "key": ";",
-        "timer": 300,
-        "event": "Gold Fury"
-    },
-    "fg": {
-        "key": "'",
-        "timer": 300,
-        "event": "Fire Giant"
+    "events": {
+        "beads": {
+            "key": "`",
+            "timer": 160,
+            "event_name": "Beads"
+        },
+        "beads_upgrade": {
+            "key": "page_up",
+            "timer": 130,
+            "event_name": "U Beads"
+        },
+        "aegis": {
+            "key": "caps_lock",
+            "timer": 180,
+            "event_name": "Aegis"
+        },
+        "aegis_upgrade": {
+            "key": "page_down",
+            "timer": 150,
+            "event_name": "U Aegis"
+        },
+        "blink": {
+            "key": "-",
+            "timer": 140,
+            "event_name": "Blink"
+        },
+        "blink_upgrade": {
+            "key": "=",
+            "timer": 120,
+            "event_name": "U Blink"
+        },
+        "shell": {
+            "key": "delete",
+            "timer": 150,
+            "event_name": "Shell"
+        },
+        "sprint": {
+            "key": "insert",
+            "timer": 140,
+            "event_name": "Sprint"
+        },
+        "gf": {
+            "key": ";",
+            "timer": 300,
+            "event_name": "Gold Fury"
+        },
+        "fg": {
+            "key": "'",
+            "timer": 300,
+            "event_name": "Fire Giant"
+        }
     }
 }

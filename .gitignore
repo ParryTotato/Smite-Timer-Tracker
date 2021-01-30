@@ -1,5 +1,4 @@
 testing.py
 *.jpg
-config.json
 .idea/
 venv/

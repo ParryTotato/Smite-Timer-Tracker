@@ -7,6 +7,13 @@ from pynput.keyboard import Key, Listener, KeyCode
 
 config = json.loads(open('config.json').read())
 
+def print_controls():
+    print("\n\nCONTROLS:")
+    
+    for event in config['events']:
+        print(config['events'][event]['event_name'] + ": " + config['events'][event]['key'])
+    
+    print("\n")
 
 def format_time(min, sec):
     if sec >= 60:
@@ -16,19 +23,11 @@ def format_time(min, sec):
     return [min, sec]
 
 
-def mode_switcher(mode):
-    switcher = {
-        'beads': [config['beads']['timer'], config['beads']['event']],
-        'u_beads': [config['beads_upgrade']['timer'], config['beads_upgrade']['event']],
-        'aegis': [config['aegis']['timer'], config['aegis']['event']],
-        'u_aegis': [config['aegis_upgrade']['timer'], config['aegis_upgrade']['event']],
-        'gf': [config['gf']['timer'], config['gf']['event']],
-        'fg': [config['fg']['timer'], config['fg']['event']]
-    }
-    return switcher.get(mode, [0, "Invalid"])
+def event_getter(event):
+    return [config['events'][event]['timer'], config['events'][event]['event_name']]
 
 
-def process(greyImg, mode):
+def process(greyImg, event):
     txt = pytesseract.image_to_string(greyImg)
     if txt != '':
         time_raw = ''.join(filter(lambda x: x.isdigit(), txt))
@@ -39,7 +38,7 @@ def process(greyImg, mode):
         else:
             min = int(time_raw[:-2])
             sec = int(time_raw[-2:])
-            [time_add, event] = mode_switcher(mode)
+            [time_add, event] = event_getter(event)
             [min, sec] = format_time(min, sec + time_add)
             sec_str = str(sec)
             if len(sec_str) == 1:
@@ -49,7 +48,7 @@ def process(greyImg, mode):
             return sb
 
 
-def grab_image(mode):
+def grab_image(event):
     x = config['x_cord']
     y = config['y_cord']
     off_x = config['off_x']
@@ -63,14 +62,14 @@ def grab_image(mode):
 
     # helping with image processing
     img = np.array(img)
-    result = process(img, mode)
+    result = process(img, event)
     if type(result) == str:
         return result
     return ''
 
 
-def send_message(mode):
-    time = grab_image(mode)
+def send_message(event):
+    time = grab_image(event)
     if config["use_mode"] == "no_enter":
         keyboard.send('enter')
         keyboard.write(time)
@@ -84,7 +83,7 @@ def send_message(mode):
         keyboard.write(time)
 
 
-def key_reader(key, ):
+def key_reader(key):
     frmt = format(key)
     if frmt != "\"\'\"":
         frmt = frmt.replace('\'', '')
@@ -95,32 +94,25 @@ def key_reader(key, ):
 
     if frmt == config['exit_key']:
         #print('\x03')
+        print("Bye!")
         return False
 
-    if frmt == config['beads']['key']:
-        send_message('beads')
+    elif frmt == config['controls_key']:
+        print_controls()
 
-    if frmt == config['beads_upgrade']['key']:
-        send_message('u_beads')
-
-    if frmt == config['aegis']['key']:
-        send_message('aegis')
-
-    if frmt == config['aegis_upgrade']['key']:
-        send_message('u_aegis')
-    
-    if frmt == config['gf']['key']:
-        send_message('gf')
-
-    if frmt == config['fg']['key']:
-        send_message('fg')
+    else:
+        for event in config['events']:
+            if frmt == config['events'][event]['key']:
+                send_message(event)
 
 
 def on_press(key):
     print('{0} pressed'.format(key))
 
 
+print("Press " + config['controls_key'] + " to view controls.\nPress " + config['exit_key'] + " to end program.")
+
 with Listener(
-        on_press = on_press,
+        on_press = None,
         on_release = key_reader) as listener:
     listener.join()
