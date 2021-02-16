@@ -3,9 +3,11 @@ import numpy as np
 from PIL import ImageGrab
 import pytesseract
 import json
-from pynput.keyboard import Key, Listener, KeyCode
+from pynput.keyboard import Key, Listener, KeyCode, Controller
+import time as sleeper
 
 config = json.loads(open('config.json').read())
+# keyboard = Controller()
 
 def print_controls():
     print("\n\nCONTROLS:")
@@ -33,7 +35,7 @@ def process(greyImg, event):
         time_raw = ''.join(filter(lambda x: x.isdigit(), txt))
         time_raw = time_raw.replace('-.', ':')
         if len(time_raw) < 3:
-            print("bad key reading")
+            print("bad time reading")
             time_raw = -1
         else:
             min = int(time_raw[:-2])
@@ -73,14 +75,14 @@ def send_message(event):
     if config["use_mode"] == "no_enter":
         keyboard.send('enter')
         keyboard.write(time)
-        # keyboard.send(time)
-        # keyboard.call_later(lambda: keyboard.send('space'),(), 0.1)
-        # for letter in time:
-        #     keyboard.send(letter)
-        keyboard.call_later(lambda: keyboard.send('enter'), (), 0.1)
+        keyboard.call_later(lambda: keyboard.send('enter'), (), 0.01)
+        # keyboard.tap(Key.enter)
+        # keyboard.type(time)
+        # sleeper.sleep(0.03)
+        # keyboard.tap(Key.enter)
     # keyboard.call_later(lambda: keyboard.write(time), (), 0.1)
     elif config["use_mode"] == "yes_enter":
-        keyboard.write(time)
+        keyboard.type(time)
 
 
 def key_reader(key):
@@ -92,6 +94,8 @@ def key_reader(key):
     else:
         frmt = frmt.replace('\"', '')
 
+    paused = False
+
     if frmt == config['exit_key']:
         #print('\x03')
         print("Bye!")
@@ -100,7 +104,10 @@ def key_reader(key):
     elif frmt == config['controls_key']:
         print_controls()
 
-    else:
+    elif frmt == config['paused_key']:
+        paused = not paused
+
+    elif not paused:
         for event in config['events']:
             if frmt == config['events'][event]['key']:
                 send_message(event)
@@ -111,6 +118,7 @@ def on_press(key):
 
 
 print("Press " + config['controls_key'] + " to view controls.\nPress " + config['exit_key'] + " to end program.")
+print_controls()
 
 with Listener(
         on_press = None,

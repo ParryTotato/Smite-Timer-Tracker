@@ -6,14 +6,15 @@
     "use_mode": "no_enter",
     "controls_key": "home",
     "exit_key": "end",
+    "pause_key": "insert",
     "events": {
         "beads": {
-            "key": "`",
+            "key": "shift",
             "timer": 160,
             "event_name": "Beads"
         },
         "beads_upgrade": {
-            "key": "page_up",
+            "key": "",
             "timer": 130,
             "event_name": "U Beads"
         },
@@ -23,12 +24,12 @@
             "event_name": "Aegis"
         },
         "aegis_upgrade": {
-            "key": "page_down",
+            "key": "",
             "timer": 150,
             "event_name": "U Aegis"
         },
         "blink": {
-            "key": "-",
+            "key": "`",
             "timer": 140,
             "event_name": "Blink"
         },
