@@ -6,6 +6,9 @@ import json
 from pynput.keyboard import Key, Listener, KeyCode, Controller
 import time as sleeper
 
+global paused
+paused = False
+
 config = json.loads(open('config.json').read())
 # keyboard = Controller()
 
@@ -82,8 +85,7 @@ def send_message(event):
         # keyboard.tap(Key.enter)
     # keyboard.call_later(lambda: keyboard.write(time), (), 0.1)
     elif config["use_mode"] == "yes_enter":
-        keyboard.type(time)
-
+        keyboard.write(time)
 
 def key_reader(key):
     frmt = format(key)
@@ -94,8 +96,6 @@ def key_reader(key):
     else:
         frmt = frmt.replace('\"', '')
 
-    paused = False
-
     if frmt == config['exit_key']:
         #print('\x03')
         print("Bye!")
@@ -104,8 +104,10 @@ def key_reader(key):
     elif frmt == config['controls_key']:
         print_controls()
 
-    elif frmt == config['paused_key']:
+    elif frmt == config['pause_key']:
+        global paused
         paused = not paused
+        print("pause status: "+ str(paused))
 
     elif not paused:
         for event in config['events']:
